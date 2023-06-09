@@ -57,24 +57,18 @@ public class Bank {
     }
 
     public boolean deposit(String accountNumber, double amount) {
-        if (getClientByAccountNumber(accountNumber) != null) {
-            for (int i = 0; i < clients.length; i++) {
-                if (clients[i].getAccountNumber().equals(accountNumber)) {
-                    clients[i].setBalance(clients[i].getBalance() + amount);
-                }
-            }
+        Client client = getClientByAccountNumber(accountNumber);
+        if (client != null) {
+            client.setBalance(client.getBalance() + amount);
             return true;
         }
         return false;
     }
 
     public boolean withdraw(String accountNumber, double amount) {
-        if (getClientByAccountNumber(accountNumber) != null) {
-            for (int i = 0; i < clients.length; i++) {
-                if (clients[i].getAccountNumber().equals(accountNumber)) {
-                    clients[i].setBalance(clients[i].getBalance() - amount);
-                }
-            }
+        Client client = getClientByAccountNumber(accountNumber);
+        if (client != null) {
+            client.setBalance(client.getBalance() - amount);
             return true;
         }
         return false;
@@ -82,17 +76,8 @@ public class Bank {
 
     public boolean transfer(String fromAccountNumber, String toAccountNumber, double amount) {
         if ((getClientByAccountNumber(fromAccountNumber) != null) && (getClientByAccountNumber(toAccountNumber)) != null) {
-            for (int i = 0; i < clients.length; i++) {
-
-                if (clients[i].getAccountNumber().equals(fromAccountNumber)) {
-                    clients[i].setBalance(clients[i].getBalance() - amount);
-                }
-            }
-            for (int j = 0; j < clients.length; j++) {
-                if (clients[j].getAccountNumber().equals(toAccountNumber)) {
-                    clients[j].setBalance(clients[j].getBalance() + amount);
-                }
-            }
+            deposit(toAccountNumber,amount);
+            withdraw(fromAccountNumber,amount);
             return true;
         }
         return false;
